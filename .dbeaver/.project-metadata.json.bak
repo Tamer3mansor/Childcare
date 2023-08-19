@@ -1,0 +1,1 @@
+{"resources":{"Scripts/Script-1.sql":{"default-datasource":"mysql8-189fd4c393e-1894f3978165491f","default-catalog":"userapi"},"Scripts/Script-2.sql":{"default-datasource":"mysql8-189efc72de3-6f73bbf74902fc78","default-catalog":"userapi"},"Scripts/Script.sql":{"default-datasource":"mysql8-189efc72de3-6f73bbf74902fc78","default-catalog":"childcare"}}}
