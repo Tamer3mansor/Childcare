@@ -21,6 +21,7 @@ class logIn {
     const { email, password } = req.body;
 
     const user = userModule.getUser(email);
+    console.log('user is ', user);
 
     if (user) {
       //check password
@@ -30,6 +31,7 @@ class logIn {
           process.env.JWT_SECRET_KEY as string,
           { expiresIn: "24h" }
         );
+        res.cookie('childCare',token,{ maxAge: 900000, httpOnly: true})
         res.status(200).json({ msg: "done" });
       }
     } else {
@@ -37,4 +39,4 @@ class logIn {
     }
   }
 }
-module.exports=logIn;
+module.exports = logIn;
