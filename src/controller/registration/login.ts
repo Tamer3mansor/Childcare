@@ -6,6 +6,7 @@ const userModule = require("../../modules/user");
 
 class logIn {
   private static checkPassword = (userPassword: any, DataBasePassword: any) => {
+    console.log(bcrypt.hash(userPassword, 10) == DataBasePassword);
     if (bcrypt.hash(userPassword, 10) == DataBasePassword) return 1;
     else return 0;
   };

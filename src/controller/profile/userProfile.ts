@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 const userModule = require("../../modules/user");
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 class userProfile {
     private static async checkCookies(req: Request) {
@@ -18,6 +19,10 @@ class userProfile {
             return true;
         }
     }
+    private static checkPassword = (userPassword: any, DataBasePassword: any) => {
+        if (bcrypt.hash(userPassword, 10) == DataBasePassword) return 1;
+        else return 0;
+    };
     static async getUser(req: Request, res: Response) {
         let { email } = req.body;
         if (!userProfile.validate(req)) {
@@ -36,18 +41,69 @@ class userProfile {
         }
 
     };
-    static editUser() {
+    static async editUser(req: Request, res: Response) {
+        let { name, password, email, mobile } = req.body;
+        if (!userProfile.validate(req)) {
+            return res.status(500).json({ msg: "internal error" });
+        }
+        if (!userProfile.checkCookies(req)) {
+            return res.status(400).json({ msg: "not logIn " })
+        }
+        if (!this.checkPassword(password, userModule.getUser(email).password)) {
+            return res.status(400).json({ msg: "wrong password" })
+        }
+        let result = await userModule.editUser(name, password, email, mobile);
+        if (result) {
+            return res.status(200).json({ msg: result });
+        }
+        else {
+            return res.status(500).json({ msg: "internal error" });
 
+        }
     };
-    static deleteUser() {
+    static async deleteUser(req: Request, res: Response) {
+        let { name, password, email } = req.body;
+        if (!userProfile.validate(req)) {
+            return res.status(500).json({ msg: "internal error" });
+        }
+        if (!userProfile.checkCookies(req)) {
+            return res.status(400).json({ msg: "not logIn " })
+        }
+        if (!this.checkPassword(password, userModule.getUser(email).password)) {
+            return res.status(400).json({ msg: "wrong password" })
+        }
+        let result = await userModule.deleteUser(name, email);
+        if (result) {
+            return res.status(200).json({ msg: result });
+        }
+        else {
+            return res.status(500).json({ msg: "internal error" });
 
+        }
     };
-    static enableUser() {
+    static async enableUser(req: Request, res: Response) {
+        let { name, password, email } = req.body;
+        if (!userProfile.validate(req)) {
+            return res.status(500).json({ msg: "internal error" });
+        }
+        if (!userProfile.checkCookies(req)) {
+            return res.status(400).json({ msg: "not logIn " })
+        }
+        if (!this.checkPassword(password, userModule.getUser(email).password)) {
+            return res.status(400).json({ msg: "wrong password" })
+        }
+        let result = await userModule.alterEnable(!userModule.getUser(email).enable);
+        if (result) {
+            return res.status(200).json({ msg: result });
+        }
+        else {
+            return res.status(500).json({ msg: "internal error" });
 
+        }
     };
-    static disableUser() {
-
+    static async disableUser(req: Request, res: Response) {
     };
 
 
 }
+module.exports = userProfile;
