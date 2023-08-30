@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 class userProfile {
     private static async checkCookies(req: Request) {
+        console.log(req);
         let token = req.cookie.childCare;
         let ver = await jwt.verify(token, process.env.JWT_SECRET_KEY);
         if (ver) return 1;
@@ -64,7 +65,7 @@ class userProfile {
     static async deleteUser(req: Request, res: Response) {
         let { name, password, email } = req.body;
         if (!userProfile.validate(req)) {
-            return res.status(500).json({ msg: "internal error" });
+            return res.status(500).json({ msg: "internal error1" });
         }
         if (!userProfile.checkCookies(req)) {
             return res.status(400).json({ msg: "not logIn " })
@@ -73,11 +74,12 @@ class userProfile {
             return res.status(400).json({ msg: "wrong password" })
         }
         let result = await userModule.deleteUser(name, email);
+        console.log(result);
         if (result) {
             return res.status(200).json({ msg: result });
         }
         else {
-            return res.status(500).json({ msg: "internal error" });
+            return res.status(500).json({ msg: "internal error2" });
 
         }
     };

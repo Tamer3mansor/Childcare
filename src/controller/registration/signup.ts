@@ -19,9 +19,10 @@ class signup {
     if (user != null && user != undefined) {
       return res.status(400).json({ msg: "email exist" });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
     const insert = await userModule.createUser(id, typeCode, name, hashedPassword, email, mobile);
-    console.log(insert);
+    console.log("insert", insert);
 
     if (insert) {
 

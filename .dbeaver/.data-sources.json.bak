@@ -19,38 +19,9 @@
 					"enabledTLSProtocols": "TLSv1,TLSv1.1,TLSv1.2"
 				},
 				"auth-model": "native"
-			}
-		},
-		"mysql8-189f414f73b-3e3f10f31719c862": {
-			"provider": "mysql",
-			"driver": "mysql8",
-			"name": "childCareDb",
-			"save-password": true,
-			"configuration": {
-				"host": "localhost",
-				"port": "3306",
-				"database": "childCareDb",
-				"url": "jdbc:mysql://localhost:3306/childCareDb",
-				"configurationType": "MANUAL",
-				"home": "C:\\Program Files\\MySQL\\MySQL Router 8.0",
-				"type": "dev",
-				"auth-model": "native"
-			}
-		},
-		"mysql8-189fd4c393e-1894f3978165491f": {
-			"provider": "mysql",
-			"driver": "mysql8",
-			"name": "userApi",
-			"save-password": true,
-			"configuration": {
-				"host": "localhost",
-				"port": "3306",
-				"database": "userApi",
-				"url": "jdbc:mysql://localhost:3306/userApi",
-				"configurationType": "MANUAL",
-				"home": "C:\\Program Files\\MySQL\\MySQL Router 8.0",
-				"type": "dev",
-				"auth-model": "native"
+			},
+			"custom-properties": {
+				"database.editor.separate.connection": "ALWAYS"
 			}
 		}
 	},
